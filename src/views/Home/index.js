@@ -1,10 +1,15 @@
-import React from 'react';
-import {Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, BackHandler} from 'react-native';
 import Layout from '../../components/layout';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function Home(props) {
+
+  useEffect(() => {
+    console.log("HOLA!!")
+  }, [])
+
   return (
     <Layout navigation={props.navigation} title="Home">
       <Text>{props.user.data.name}</Text>

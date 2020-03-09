@@ -1,7 +1,7 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Button, View, Text} from 'react-native';
+import {Button, View, Text, StatusBar} from 'react-native';
 import Home from "../views/Home"
 
 function SettingsScreen() {
@@ -48,9 +48,15 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerContainer() {
   return (
+    <>
+     <StatusBar
+        backgroundColor='#1a6844'
+        barStyle="dark-content"
+      />
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen name="Home" component={Screen} />
       <Drawer.Screen name="Notifications" component={NotificationsScreen} />
     </Drawer.Navigator>
+    </>
   );
 }
