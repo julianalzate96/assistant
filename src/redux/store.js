@@ -8,12 +8,14 @@ const enhacers = [
   applyMiddleware(
     createLogger({
       collapsed: true,
+      predicate: () => __DEV__,
     }),
   ),
 ];
 
 const composeEnhacers =
-  (typeof window !== 'undefined' &&
+  (__DEV__ &&
+    typeof window !== 'undefined' &&
     window._REDUX_DEVTOOLS_EXTENSION_COMPOSE_) ||
   compose;
 
