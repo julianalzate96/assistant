@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Button, Image} from 'react-native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {emailValidation} from '../../functions/regex';
+import {colors} from '../../styles';
 
 export default function ResetPassword(props) {
   const [email, setEmail] = useState({email: '', status: false});
@@ -59,7 +60,7 @@ export default function ResetPassword(props) {
       <View style={styles.buttonContainer}>
         <Button
           title="Restaurar Contraseña"
-          color="#1a6844"
+          color={colors.green}
           onPress={() => _handleSubmit()}
         />
       </View>
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#1a6844',
+    borderBottomColor: colors.green,
     padding: 0,
   },
   alert: {

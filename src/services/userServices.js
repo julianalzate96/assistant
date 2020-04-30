@@ -3,6 +3,6 @@ import { LOGIN } from "../api/url"
 
 export const _login = user => {
     return Axios.post(LOGIN, user)
-    .then(res => res)
+    .then(res =>res)
     .catch(err => err)
 }

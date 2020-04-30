@@ -7,7 +7,7 @@ export const _getData = async () => {
       // value previously stored
       return true
     }else{
-        return false;
+      return false;
     }
   } catch (e) {
     // error reading value
