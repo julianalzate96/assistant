@@ -4,8 +4,11 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {emailValidation} from '../../functions/regex';
 import {_login} from '../../services/userServices';
 import {_storeData} from '../../functions/session';
+import { connect } from "react-redux"
+import { setUser } from '../../redux/actions/actionCreator';
+import { colors } from '../../styles';
 
-export default function Login(props) {
+function Login(props) {
   const [email, setEmail] = useState({email: '', status: false});
   const [password, setPassword] = useState('');
   const [logoSize, setLogoSize] = useState(false);
@@ -26,9 +29,11 @@ export default function Login(props) {
     if (email.status) {
       // handle AuthMethod
       let res = await _login({identifier: email.email, password});
+      console.log("RES: ", res)
       if (res.status === 200) {
         setAlert(false);
         await _storeData(res.data.jwt);
+        props.setUser(res.data)
         props.navigation.navigate("App")
       } else {
         setAlert(true);
@@ -82,7 +87,7 @@ export default function Login(props) {
       <View style={styles.buttonContainer}>
         <Button
           title="Iniciar Sesion"
-          color="#1a6844"
+          color={colors.green}
           onPress={() => _handleSubmit()}
         />
 
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#1a6844',
+    borderBottomColor: colors.green,
     padding: 0,
   },
   alert: {
@@ -160,3 +165,12 @@ const styles = StyleSheet.create({
     color: 'green',
   },
 });
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: userData => {
+      dispatch(setUser(userData))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login)

@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
-import {Text, BackHandler} from 'react-native';
+import {Text ,View } from 'react-native';
 import Layout from '../../components/layout';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import SearchBar from '../../components/searchBar.js';
+import NavBar from '../../components/navBar';
 
 function Home(props) {
 
@@ -11,19 +13,12 @@ function Home(props) {
   }, [])
 
   return (
-    <Layout navigation={props.navigation} title="Home">
-      <Text>{props.user.data.name}</Text>
-      <Text>{props.user.data.lastname}</Text>
-      <TouchableOpacity
-        style={{height: 50, width: 100, backgroundColor: 'red'}}
-        onPress={() => {
-          props.setName(1);
-        }}></TouchableOpacity>
-      <TouchableOpacity
-        style={{height: 50, width: 100, backgroundColor: 'blue'}}
-        onPress={() => {
-          props.setLastName(1);
-        }}></TouchableOpacity>
+    <Layout navigation={props.navigation} title="preguntas">
+     {/* <SearchBar /> */}
+     <NavBar />
+     <View style={{ flex:2 }}>
+
+     </View>
     </Layout>
   );
 }
