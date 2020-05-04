@@ -14,7 +14,7 @@ export default function Option({title, active = false, setOption}) {
         style={[
           styles.optionTitle,
           {
-            fontWeight: active ? 'bold' : 'medium',
+            fontWeight: active ? "bold" : "300",
             color: active ? colors.green : colors.gray,
           },
         ]}>
