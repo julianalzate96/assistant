@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, AppRegistry} from 'react-native';
 import Layout from '../../components/layout';
 import {connect} from 'react-redux';
 import NavBar from '../../components/navBar';
@@ -11,9 +11,11 @@ import {newAnswer} from '../../api/socket';
 import {
   _setQuestionInfo,
   _setNewAnswerInQuestionInfo,
+  _setFilter,
 } from '../../redux/actions/actionCreator';
 import {QuestionsContext} from '../../context/context';
 import QuestionAlert from '../../components/questionAlert';
+import App from '../../../App';
 
 function Home(props) {
   const [questions, setQuestions] = useState([]);
@@ -56,7 +58,11 @@ function Home(props) {
 
   const renderGeneralQuestions = () => {
     let arrayQuestions = questions
-      .filter(question => question.user.username === 'admin')
+      .filter(
+        question =>
+          question.user.username === 'admin' &&
+          question.descripcion.toLowerCase().indexOf(props.filter) !== -1,
+      )
       .map((question, i) => {
         return (
           <Question
@@ -82,7 +88,11 @@ function Home(props) {
 
   const renderMyQuestions = () => {
     let arrayQuestions = questions
-      .filter(question => question.user._id === props.user.user._id)
+      .filter(
+        question =>
+          question.user._id === props.user.user._id &&
+          question.descripcion.toLowerCase().indexOf(props.filter) !== -1,
+      )
       .map((question, i) => {
         return (
           <Question
@@ -108,7 +118,11 @@ function Home(props) {
 
   const renderCareerQuestions = () => {
     let arrayQuestions = questions
-      .filter(question => question.user.carrera === props.user.user.carrera._id)
+      .filter(
+        question =>
+          question.user.carrera === props.user.user.carrera._id &&
+          question.descripcion.toLowerCase().indexOf(props.filter) !== -1,
+      )
       .map((question, i) => {
         return (
           <Question
@@ -163,23 +177,19 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     questionInfo: state.question,
+    filter: state.filter,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setName: name => {
-      dispatch({type: 'SET_NAME', payload: name});
-    },
-    setLastName: name => {
-      dispatch({type: 'SET_LASTNAME', payload: name});
-    },
     setQuestionInfo: data => {
       dispatch(_setQuestionInfo(data));
     },
     setNewAnswer: answer => {
       dispatch(_setNewAnswerInQuestionInfo(answer));
     },
+    resetFilter: () => dispatch(_setFilter('')),
   };
 };
 
@@ -187,3 +197,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Home);
+
+AppRegistry.registerComponent("Home", () => App)

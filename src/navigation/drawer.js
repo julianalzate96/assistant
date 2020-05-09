@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Button, View, Text, StatusBar} from 'react-native';
 import Home from '../views/Home';
 import {SvgXml} from 'react-native-svg';
 import {BURGER, QUESTIONS, CHAT, DOCUMENTS} from '../assets/svgs';
-import { colors } from '../styles';
+import {colors} from '../styles';
 
 function SettingsScreen() {
   return (
@@ -25,28 +25,25 @@ function Screen({navigation}) {
           let iconName;
           let color;
 
-          // if (route.name === 'Home2') {
-          //   iconName = QUESTIONS;
-          // } else if (route.name === 'Settings') {
-          //   iconName = BURGER;
-          // } else if (route.name === 'Chat') {
-          //   iconName = CHAT;
-          // }
-
           switch (route.name) {
-            case 'Home2':iconName = QUESTIONS;
+            case 'Home2':
+              iconName = QUESTIONS;
               break;
-            case 'Chat':iconName = CHAT;
+            case 'Chat':
+              iconName = CHAT;
               break;
-            case 'Documentos':iconName = DOCUMENTS;
+            case 'Documentos':
+              iconName = DOCUMENTS;
               break;
-            case 'We':iconName = QUESTIONS;
+            case 'We':
+              iconName = QUESTIONS;
               break;
-            default:iconName = BURGER;
+            default:
+              iconName = BURGER;
           }
 
           color = focused ? colors.green : colors.gray;
-          
+
           return <SvgXml height={20} width={20} fill={color} xml={iconName} />;
         },
       })}
@@ -68,7 +65,16 @@ function Screen({navigation}) {
           },
         }}
       />
-      <Tab.Screen name="Chat" component={SettingsScreen} />
+      <Tab.Screen
+        name="Chat"
+        component={SettingsScreen}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+            alert('Seccion en Construccion');
+          },
+        }}
+      />
       <Tab.Screen name="Documentos" component={SettingsScreen} />
       <Tab.Screen name="We" component={SettingsScreen} />
     </Tab.Navigator>
@@ -87,7 +93,7 @@ const Drawer = createDrawerNavigator();
 
 export default function DrawerContainer() {
   return (
-    <>
+    <Fragment>
       <StatusBar
         backgroundColor="transparent"
         translucent
@@ -97,6 +103,6 @@ export default function DrawerContainer() {
         <Drawer.Screen name="Home" component={Screen} />
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       </Drawer.Navigator>
-    </>
+    </Fragment>
   );
 }
