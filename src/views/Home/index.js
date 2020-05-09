@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import React, {useState, useEffect, useMemo} from 'react';
+import {StyleSheet} from 'react-native';
 import Layout from '../../components/layout';
 import {connect} from 'react-redux';
 import NavBar from '../../components/navBar';
@@ -12,13 +12,17 @@ import {
   _setQuestionInfo,
   _setNewAnswerInQuestionInfo,
 } from '../../redux/actions/actionCreator';
+import {QuestionsContext} from '../../context/context';
+import QuestionAlert from '../../components/questionAlert';
 
 function Home(props) {
   const [questions, setQuestions] = useState([]);
-  // const [questionInfo, setQuestionInfo] = useState({
-  //   status: false,
-  //   answers: [],
-  // });
+  const [option, setOption] = useState(1);
+
+  const contextValue = useMemo(() => ({option, setOption}), [
+    option,
+    setOption,
+  ]);
 
   useEffect(() => {
     async function getAllQuestions() {
@@ -26,8 +30,6 @@ function Home(props) {
 
       if (res.status === 200) {
         setQuestions(res.data);
-      } else {
-        alert('Error  al consultar las preguntas');
       }
     }
 
@@ -39,30 +41,111 @@ function Home(props) {
     getAllQuestions();
   }, []);
 
+  const renderQuestions = number => {
+    switch (number) {
+      case 1:
+        return renderGeneralQuestions();
+      case 2:
+        return renderMyQuestions();
+      case 3:
+        return renderCareerQuestions();
+      default:
+        return <QuestionAlert />;
+    }
+  };
+
+  const renderGeneralQuestions = () => {
+    let arrayQuestions = questions
+      .filter(question => question.user.username === 'admin')
+      .map((question, i) => {
+        return (
+          <Question
+            key={i}
+            question={question}
+            setQuestionInfo={() =>
+              props.setQuestionInfo({
+                status: true,
+                answers: question.respuestas,
+                idQuestion: question._id,
+              })
+            }
+          />
+        );
+      });
+
+    if (arrayQuestions.length === 0) {
+      return <QuestionAlert />;
+    }
+
+    return arrayQuestions;
+  };
+
+  const renderMyQuestions = () => {
+    let arrayQuestions = questions
+      .filter(question => question.user._id === props.user.user._id)
+      .map((question, i) => {
+        return (
+          <Question
+            key={i}
+            question={question}
+            setQuestionInfo={() =>
+              props.setQuestionInfo({
+                status: true,
+                answers: question.respuestas,
+                idQuestion: question._id,
+              })
+            }
+          />
+        );
+      });
+
+    if (arrayQuestions.length === 0) {
+      return <QuestionAlert />;
+    }
+
+    return arrayQuestions;
+  };
+
+  const renderCareerQuestions = () => {
+    let arrayQuestions = questions
+      .filter(question => question.user.carrera === props.user.user.carrera._id)
+      .map((question, i) => {
+        return (
+          <Question
+            key={i}
+            question={question}
+            setQuestionInfo={() =>
+              props.setQuestionInfo({
+                status: true,
+                answers: question.respuestas,
+                idQuestion: question._id,
+              })
+            }
+          />
+        );
+      });
+
+    if (arrayQuestions.length === 0) {
+      return (
+        <QuestionAlert text="No hay preguntas relacionadas con tu carrera" />
+      );
+    }
+
+    return arrayQuestions;
+  };
+
   return (
     <Layout navigation={props.navigation} title="preguntas">
-      <NavBar />
+      <QuestionsContext.Provider value={contextValue}>
+        <NavBar />
+      </QuestionsContext.Provider>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <QuestionInfo
           toggleModal={() =>
             props.setQuestionInfo({status: false, answers: [], idQuestion: ''})
           }
         />
-        {questions.map((question, i) => {
-          return (
-            <Question
-              key={i}
-              question={question}
-              setQuestionInfo={() =>
-                props.setQuestionInfo({
-                  status: true,
-                  answers: question.respuestas,
-                  idQuestion: question._id,
-                })
-              }
-            />
-          );
-        })}
+        {renderQuestions(option)}
       </ScrollView>
     </Layout>
   );
