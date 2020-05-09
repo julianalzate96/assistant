@@ -21,6 +21,7 @@ function QuestionInfo(props) {
         <View style={styles.modal}>
           <Answers answers={props.questionInfo.answers} />
           <InputContainer
+            placeholder="Escribe tu Pregunta Aqui."
             send={answer => {
               createAnswer(
                 props.questionInfo.idQuestion,
@@ -47,8 +48,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     borderRadius: 10,
-    padding: '5%',
+    paddingHorizontal:"5%",
+    paddingTop:"5%",
     justifyContent: 'space-between',
+    borderWidth:1
   },
 });
 
