@@ -7,8 +7,6 @@ import {createAnswer} from '../../../services/answerServices';
 import {connect} from 'react-redux';
 
 function QuestionInfo(props) {
-  const [loading, setLoading] = useState(false);
-  alert(JSON.stringify(props.questionInfo.answers))
   return (
     <View>
       <Modal
@@ -21,15 +19,9 @@ function QuestionInfo(props) {
         animationIn="zoomInUp"
         animationOut="zoomOutUp">
         <View style={styles.modal}>
-          {!loading && <Answers answers={props.questionInfo.answers} />}
-          {loading && (
-            <View style={{height: '90%'}}>
-              <Text>Loading...</Text>
-            </View>
-          )}
+          <Answers answers={props.questionInfo.answers} />
           <InputContainer
             send={answer => {
-              setLoading(true);
               createAnswer(
                 props.questionInfo.idQuestion,
                 answer,
@@ -37,7 +29,7 @@ function QuestionInfo(props) {
                 props.user.jwt,
               )
                 .then(async res => {
-                  setLoading(false);
+                  console.log('SENT!');
                 })
                 .catch(err => alert(JSON.stringify(err)));
             }}

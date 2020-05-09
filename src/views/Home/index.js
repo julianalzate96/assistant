@@ -22,7 +22,6 @@ function Home(props) {
 
   useEffect(() => {
     async function getAllQuestions() {
-      console.log('GET');
       let res = await getQuestions(props.user.user._id, props.user.jwt);
 
       if (res.status === 200) {
@@ -33,9 +32,8 @@ function Home(props) {
     }
 
     newAnswer(async data => {
-      // props.setNewAnswer(data);
+      props.setNewAnswer(data);
       await getAllQuestions();
-      // console.log(':D', props);
     });
 
     getAllQuestions();
@@ -45,14 +43,11 @@ function Home(props) {
     <Layout navigation={props.navigation} title="preguntas">
       <NavBar />
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {<QuestionInfo
-          // questionInfo={questionInfo}
+        <QuestionInfo
           toggleModal={() =>
             props.setQuestionInfo({status: false, answers: [], idQuestion: ''})
           }
-        />}
-        {/* {questions[0] !== undefined &&
-          alert(JSON.stringify(questions[0].respuestas.length))} */}
+        />
         {questions.map((question, i) => {
           return (
             <Question
