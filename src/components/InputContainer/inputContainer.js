@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import {colors} from '../../styles';
 import PropTypes from 'prop-types';
+import {SvgXml} from 'react-native-svg';
+import { ADD } from "../../assets/svgs"
 
-export default function InputContainer({placeholder, buttonText, send}) {
+export default function InputContainer({placeholder, buttonText, send, icon}) {
   const [state, setState] = useState('');
   return (
     <View style={styles.container}>
@@ -14,9 +17,15 @@ export default function InputContainer({placeholder, buttonText, send}) {
         onChangeText={text => {
           setState(text);
         }}
+        value={state}
       />
-      <TouchableOpacity onPress={() => send(state)} style={styles.button}>
-        <Text>{buttonText}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          send(state);
+          setState('');
+        }}
+        style={styles.button}>
+        <SvgXml height={45} width={45} fill={colors.green} xml={icon} />
       </TouchableOpacity>
     </View>
   );
@@ -29,14 +38,15 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    borderWidth: 1,
-    borderRadius: 10,
+    borderBottomWidth: 2,
+    borderColor: colors.green,
     maxHeight: 110,
   },
   button: {
     width: '18%',
-    borderWidth: 1,
     height: 50,
+    justifyContent:"center",
+    alignItems:"center"
   },
 });
 
@@ -44,10 +54,12 @@ InputContainer.propTypes = {
   placeholder: PropTypes.string,
   buttonText: PropTypes.string,
   send: PropTypes.func,
+  icon: PropTypes.string
 };
 
 InputContainer.defaultProps = {
   placeholder: 'Text here',
   buttonText: 'Send',
   send: () => {},
+  icon: ADD
 };

@@ -8,7 +8,7 @@ export default function Answers({answers}) {
   return (
     <ScrollView
       ref={ref => (this.scrollView = ref)}
-      style={{height: '90%'}}
+      style={{height: '100%', paddingBottom:"5%"}}
       onContentSizeChange={() => {
         this.scrollView.scrollResponderScrollToEnd({animated: true});
       }}>
