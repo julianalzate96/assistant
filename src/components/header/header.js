@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {BURGER} from '../../assets/svgs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import SearchBar from '../searchBar.js';
+import SearchBar from '../searchBar';
 import { colors } from '../../styles';
 
-export default function Header({navigation, type}) {
+export default function Header({navigation, type, searchBar = true}) {
   return (
     <View style={styles.header}>
       <View style={styles.container}>
@@ -15,7 +15,7 @@ export default function Header({navigation, type}) {
             <SvgXml height={25} width={25} fill={colors.green} xml={BURGER} />
           </TouchableOpacity>
         </View>
-        <SearchBar type={type}/>
+       {searchBar && <SearchBar type={type}/>}
       </View>
     </View>
   );

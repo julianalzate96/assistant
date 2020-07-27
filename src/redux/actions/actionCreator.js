@@ -5,6 +5,19 @@ const setUser = payload => {
   };
 };
 
+const resetUser = () => {
+  return {
+    type: 'RESET_USER',
+  };
+};
+
+const setTypeDocument = id => {
+  return {
+    type:"SET_TYPE",
+    id,
+  }
+}
+
 const _setQuestionInfo = payload => {
   return {
     type: 'SET_QUESTION_INFO',
@@ -24,4 +37,11 @@ const _setFilter = text => ({
   text,
 });
 
-export {setUser, _setQuestionInfo, _setNewAnswerInQuestionInfo, _setFilter};
+export {
+  setUser,
+  _setQuestionInfo,
+  _setNewAnswerInQuestionInfo,
+  _setFilter,
+  resetUser,
+  setTypeDocument
+};

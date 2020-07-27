@@ -7,7 +7,7 @@ import {getQuestions} from '../../services/questionServices';
 import Question from '../../components/question/question';
 import {ScrollView} from 'react-native-gesture-handler';
 import QuestionInfo from '../../components/question/modal/questionInfo';
-import {newAnswer} from '../../api/socket';
+import {newAnswer, newQuestion} from '../../api/socket';
 import {
   _setQuestionInfo,
   _setNewAnswerInQuestionInfo,
@@ -16,10 +16,13 @@ import {
 import {QuestionsContext} from '../../context/context';
 import QuestionAlert from '../../components/questionAlert';
 import App from '../../../App';
+import AddButton from '../../components/addButton';
+import AddQuestion from '../../components/question/addQuestion';
 
 function Home(props) {
   const [questions, setQuestions] = useState([]);
   const [option, setOption] = useState(1);
+  const [modal, setModal] = useState(false);
 
   const contextValue = useMemo(() => ({option, setOption}), [
     option,
@@ -38,6 +41,10 @@ function Home(props) {
     newAnswer(async data => {
       props.setNewAnswer(data);
       await getAllQuestions();
+    });
+
+    newQuestion(() => {
+      getAllQuestions();
     });
 
     getAllQuestions();
@@ -148,6 +155,10 @@ function Home(props) {
     return arrayQuestions;
   };
 
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
   return (
     <Layout navigation={props.navigation} title="preguntas">
       <QuestionsContext.Provider value={contextValue}>
@@ -161,6 +172,8 @@ function Home(props) {
         />
         {renderQuestions(option)}
       </ScrollView>
+      {option === 2 && <AddButton action={toggleModal} />}
+      {option === 2 && modal && <AddQuestion toggleModal={toggleModal} />}
     </Layout>
   );
 }
@@ -198,4 +211,4 @@ export default connect(
   mapDispatchToProps,
 )(Home);
 
-AppRegistry.registerComponent("Home", () => App)
+AppRegistry.registerComponent('Home', () => App);

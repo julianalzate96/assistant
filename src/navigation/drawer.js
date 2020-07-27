@@ -1,19 +1,15 @@
 import React, {Fragment} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Button, View, Text, StatusBar} from 'react-native';
+import {Button, View, StatusBar, StyleSheet, Text} from 'react-native';
 import Home from '../views/Home';
 import {SvgXml} from 'react-native-svg';
 import {BURGER, QUESTIONS, CHAT, DOCUMENTS} from '../assets/svgs';
 import {colors} from '../styles';
-
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import Document from '../views/Document';
+import AboutUs from '../views/About';
+import Chat from '../views/Chat';
+import Menu from '../components/menu';
 
 const Tab = createBottomTabNavigator();
 
@@ -67,25 +63,17 @@ function Screen({navigation}) {
       />
       <Tab.Screen
         name="Chat"
-        component={SettingsScreen}
-        listeners={{
-          tabPress: e => {
-            e.preventDefault();
-            alert('Seccion en Construccion');
-          },
-        }}
+        component={Chat}
+        // listeners={{
+        //   tabPress: e => {
+        //     e.preventDefault();
+        //     alert('Seccion en Construccion');
+        //   },
+        // }}
       />
-      <Tab.Screen name="Documentos" component={SettingsScreen} />
-      <Tab.Screen name="We" component={SettingsScreen} />
+      <Tab.Screen name="Documentos" component={Document} />
+      <Tab.Screen name="We" component={AboutUs} />
     </Tab.Navigator>
-  );
-}
-
-function NotificationsScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
   );
 }
 
@@ -99,9 +87,12 @@ export default function DrawerContainer() {
         translucent
         barStyle="dark-content"
       />
-      <Drawer.Navigator initialRouteName="Home">
+
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={Menu}
+        >
         <Drawer.Screen name="Home" component={Screen} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       </Drawer.Navigator>
     </Fragment>
   );

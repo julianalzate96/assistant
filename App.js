@@ -6,6 +6,7 @@ import {store, persistor} from './src/redux/store';
 import Loading from './src/components/loading';
 
 export default function App() {
+  console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={<Loading/>}>

@@ -7,17 +7,13 @@ import rootReducer from './reducers';
 const enhacers = [
   applyMiddleware(
     createLogger({
-      collapsed: true,
-      predicate: () => __DEV__,
+      collapsed: true
     }),
   ),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ];
 
-const composeEnhacers =
-  (__DEV__ &&
-    typeof window !== 'undefined' &&
-    window._REDUX_DEVTOOLS_EXTENSION_COMPOSE_) ||
-  compose;
+const composeEnhacers = compose()
 
 const enhacer = composeEnhacers(...enhacers);
 

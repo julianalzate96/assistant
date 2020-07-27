@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Drawer from './drawer';
 import AuthStack from './Auth';
 import {createStackNavigator} from '@react-navigation/stack';
+import CommonStack from "./Common"
 
 export default function RootNavigation() {
   const Stack = createStackNavigator();
@@ -11,6 +12,7 @@ export default function RootNavigation() {
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="Auth" component={AuthStack} />
         <Stack.Screen name="App" component={Drawer} />
+        <Stack.Screen name="common" component={CommonStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

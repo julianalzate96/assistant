@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {LUPA} from '../../assets/svgs';
 import {connect} from 'react-redux';
-import { _setFilter } from '../../redux/actions/actionCreator';
+import {_setFilter} from '../../redux/actions/actionCreator';
+import PropTypes from 'prop-types';
 
 function SearchBar(props) {
   return (
@@ -13,7 +14,13 @@ function SearchBar(props) {
       </View>
       <TextInput
         style={styles.input}
-        placeholder={`Buscar ${props.type ? 'pregunta' : 'documento'}`}
+        placeholder={`Buscar ${
+          props.placeholder
+            ? props.placeholder
+            : props.type
+            ? 'pregunta'
+            : 'asignatura'
+        }`}
         onChangeText={text => props.setFilter(text.toLowerCase())}
         value={props.filter}
       />
@@ -34,19 +41,29 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '85%',
-    textTransform: "capitalize"
+    textTransform: 'capitalize',
   },
 });
 
 const mapStateToProps = state => ({
-    filter: state.filter
-})
+  filter: state.filter,
+});
 
 const mapDispatchToProps = dispatch => ({
   setFilter: text => {
     dispatch(_setFilter(text));
   },
 });
+
+SearchBar.propTypes = {
+  type: PropTypes.bool,
+  placeholder: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  type: false,
+  placeholder: null,
+};
 
 export default connect(
   mapStateToProps,
